@@ -1,0 +1,18 @@
+email-analysis/
+│
+├── app.py
+├── requirements.txt
+├── database.db              # created automatically
+├── README.md
+│
+├── uploads/                 # uploaded .eml files
+│
+├── templates/
+│   ├── base.html
+│   ├── index.html
+│   ├── result.html
+│   └── history.html
+│
+└── static/
+    ├── style.css
+    └── script.js
