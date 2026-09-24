@@ -1,0 +1,325 @@
+{% extends "base.html" %}
+
+{% block title %}
+Analysis Result
+{% endblock %}
+
+
+{% block content %}
+
+<div class="page-header">
+
+    <h1>
+        Analysis Result
+    </h1>
+
+    <a
+        href="{{ url_for('index') }}"
+        class="button secondary"
+    >
+        Analyze Another
+    </a>
+
+</div>
+
+
+<!-- Risk -->
+
+<div class="risk-card {{ result.risk_level|lower }}">
+
+    <div>
+
+        <p>
+            Overall Risk
+        </p>
+
+        <h2>
+            {{ result.risk_level }}
+        </h2>
+
+    </div>
+
+    <div class="risk-score">
+
+        {{ result.risk_score }}%
+
+    </div>
+
+</div>
+
+
+<!-- Basic Information -->
+
+<div class="card">
+
+    <h2>
+        Email Information
+    </h2>
+
+    <div class="info-grid">
+
+        <div>
+            <strong>Filename</strong>
+            <p>{{ result.filename }}</p>
+        </div>
+
+        <div>
+            <strong>Sender</strong>
+            <p>{{ result.sender }}</p>
+        </div>
+
+        <div>
+            <strong>Recipient</strong>
+            <p>{{ result.recipient }}</p>
+        </div>
+
+        <div>
+            <strong>Subject</strong>
+            <p>{{ result.subject }}</p>
+        </div>
+
+        <div>
+            <strong>Date</strong>
+            <p>{{ result.email_date }}</p>
+        </div>
+
+        <div>
+            <strong>Reply-To</strong>
+            <p>{{ result.reply_to }}</p>
+        </div>
+
+        <div>
+            <strong>Return-Path</strong>
+            <p>{{ result.return_path }}</p>
+        </div>
+
+        <div>
+            <strong>Message-ID</strong>
+            <p>{{ result.message_id }}</p>
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- Statistics -->
+
+<div class="card">
+
+    <h2>
+        Statistics
+    </h2>
+
+    <div class="stats">
+
+        <div class="stat">
+
+            <span>
+                {{ result.word_count }}
+            </span>
+
+            <small>
+                Words
+            </small>
+
+        </div>
+
+
+        <div class="stat">
+
+            <span>
+                {{ result.link_count }}
+            </span>
+
+            <small>
+                Links
+            </small>
+
+        </div>
+
+
+        <div class="stat">
+
+            <span>
+                {{ result.attachment_count }}
+            </span>
+
+            <small>
+                Attachments
+            </small>
+
+        </div>
+
+
+        <div class="stat">
+
+            <span>
+                {{ result.spam_score }}%
+            </span>
+
+            <small>
+                Spam Score
+            </small>
+
+        </div>
+
+
+        <div class="stat">
+
+            <span>
+                {{ result.phishing_score }}%
+            </span>
+
+            <small>
+                Phishing Score
+            </small>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- Security Indicators -->
+
+<div class="card">
+
+    <h2>
+        Security Indicators
+    </h2>
+
+
+    {% if result.indicators %}
+
+        <ul class="warning-list">
+
+            {% for indicator in result.indicators %}
+
+                <li>
+                    {{ indicator }}
+                </li>
+
+            {% endfor %}
+
+        </ul>
+
+    {% else %}
+
+        <div class="success-box">
+
+            No basic suspicious indicators
+            were detected.
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+
+<!-- Links -->
+
+<div class="card">
+
+    <h2>
+        Detected Links
+    </h2>
+
+
+    {% if result.links %}
+
+        <ul class="link-list">
+
+            {% for link in result.links %}
+
+                <li>
+                    {{ link }}
+                </li>
+
+            {% endfor %}
+
+        </ul>
+
+    {% else %}
+
+        <p>
+            No links detected.
+        </p>
+
+    {% endif %}
+
+</div>
+
+
+<!-- Attachments -->
+
+<div class="card">
+
+    <h2>
+        Attachments
+    </h2>
+
+
+    {% if result.attachments %}
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>Filename</th>
+                    <th>Content Type</th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                {% for attachment in result.attachments %}
+
+                    <tr>
+
+                        <td>
+                            {{ attachment.filename }}
+                        </td>
+
+                        <td>
+                            {{ attachment.content_type }}
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    {% else %}
+
+        <p>
+            No attachments detected.
+        </p>
+
+    {% endif %}
+
+</div>
+
+
+<!-- Body -->
+
+<div class="card">
+
+    <h2>
+        Email Body
+    </h2>
+
+    <div class="email-body">
+        {{ result.body }}
+    </div>
+
+</div>
+
+{% endblock %}
