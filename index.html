@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+
+{% block title %}
+Email Analyzer
+{% endblock %}
+
+
+{% block content %}
+
+<div class="hero">
+
+    <h1>
+        Email Analysis System
+    </h1>
+
+    <p>
+        Analyze email files for content,
+        links, attachments, spam indicators,
+        and phishing indicators.
+    </p>
+
+</div>
+
+
+<div class="card upload-card">
+
+    <h2>
+        Upload Email
+    </h2>
+
+    <p>
+        Select an <strong>.eml</strong> file.
+    </p>
+
+
+    <form
+        action="{{ url_for('analyze') }}"
+        method="POST"
+        enctype="multipart/form-data"
+        id="uploadForm"
+    >
+
+        <div class="file-box">
+
+            <input
+                type="file"
+                name="email_file"
+                id="email_file"
+                accept=".eml"
+                required
+            >
+
+            <label for="email_file">
+                Choose .eml file
+            </label>
+
+        </div>
+
+
+        <p
+            id="fileName"
+            class="filename"
+        >
+            No file selected
+        </p>
+
+
+        <button
+            type="submit"
+            class="button"
+        >
+            Analyze Email
+        </button>
+
+    </form>
+
+</div>
+
+
+<div class="features">
+
+    <div class="feature">
+
+        <h3>
+            Header Analysis
+        </h3>
+
+        <p>
+            Sender, recipient, Reply-To,
+            Return-Path and Message-ID.
+        </p>
+
+    </div>
+
+
+    <div class="feature">
+
+        <h3>
+            Content Analysis
+        </h3>
+
+        <p>
+            Word count, body content,
+            links and attachments.
+        </p>
+
+    </div>
+
+
+    <div class="feature">
+
+        <h3>
+            Security Analysis
+        </h3>
+
+        <p>
+            Basic spam and phishing
+            indicators with risk scoring.
+        </p>
+
+    </div>
+
+</div>
+
+{% endblock %}
