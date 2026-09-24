@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+
+{% block title %}
+Analysis History
+{% endblock %}
+
+
+{% block content %}
+
+<div class="page-header">
+
+    <div>
+
+        <h1>
+            Analysis History
+        </h1>
+
+        <p>
+            Previously analyzed emails.
+        </p>
+
+    </div>
+
+</div>
+
+
+<div class="card">
+
+    <form
+        method="GET"
+        action="{{ url_for('history') }}"
+        class="search-form"
+    >
+
+        <input
+            type="text"
+            name="search"
+            placeholder="Search sender, subject or filename..."
+            value="{{ search }}"
+        >
+
+        <button
+            type="submit"
+            class="button"
+        >
+            Search
+        </button>
+
+    </form>
+
+</div>
+
+
+<div class="card">
+
+    {% if analyses %}
+
+        <div class="table-container">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>File</th>
+                        <th>Sender</th>
+                        <th>Subject</th>
+                        <th>Risk</th>
+                        <th>Date</th>
+                        <th>Action</th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    {% for item in analyses %}
+
+                        <tr>
+
+                            <td>
+                                {{ item.filename }}
+                            </td>
+
+                            <td>
+                                {{ item.sender }}
+                            </td>
+
+                            <td>
+                                {{ item.subject }}
+                            </td>
+
+                            <td>
+
+                                <span
+                                    class="badge {{ item.risk_level|lower }}"
+                                >
+                                    {{ item.risk_level }}
+                                    ({{ item.risk_score }}%)
+                                </span>
+
+                            </td>
+
+                            <td>
+                                {{ item.analyzed_at }}
+                            </td>
+
+                            <td>
+
+                                <form
+                                    method="POST"
+                                    action="{{ url_for(
+                                        'delete_analysis',
+                                        analysis_id=item.id
+                                    ) }}"
+                                    onsubmit="return confirm(
+                                        'Delete this analysis?'
+                                    );"
+                                >
+
+                                    <button
+                                        type="submit"
+                                        class="delete-button"
+                                    >
+                                        Delete
+                                    </button>
+
+                                </form>
+
+                            </td>
+
+                        </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    {% else %}
+
+        <div class="empty">
+
+            <h3>
+                No analysis history
+            </h3>
+
+            <p>
+                Upload an .eml file to create
+                your first analysis.
+            </p>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}
